@@ -1,0 +1,15 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class AkademikMahasiswa extends Model
+{
+    public $table = 'akademik_mahasiswa';
+    
+    public $timestamps = false;
+    
+    use HasFactory;
+}
