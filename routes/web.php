@@ -19,7 +19,7 @@ Route::controller(LoginController::class)->group(function(){
 });
 Route::get('/logout', function () {
     Session::flush();
-    return redirect('/auth_login'); 
+    return redirect('/'); 
 });
 Route::get('/reloadcaptcha', function () {
 	return captcha_img();
@@ -60,21 +60,23 @@ Route::controller(JsonController::class)->group(function(){
 });
 // End Json All Route //
 // profile 
-Route::get('/profile', [AdminProfileController::class, 'index']);
-require base_path('routes/rules/common.php');
-Route::group(['middleware' => 'checkRole:spm-administrator'], function() {
-    Route::get('/admin_dashboard', [AdminController::class, 'index'])->name('dashboard');
-    require base_path('routes/rules/admin.php');
-});
-Route::group(['middleware' => 'checkRole:spm-unitprodi'], function() {
-    Route::get('/prodi_dashboard', [ProdiController::class, 'index'])->name('dashboard');
-    require base_path('routes/rules/prodi.php');
-});
-Route::group(['middleware' => 'checkRole:spm-asesor'], function() {
-    Route::get('/asesor_dashboard', [AsesorController::class, 'index'])->name('dashboard');
-    require base_path('routes/rules/Asesor.php');
-});
-Route::group(['middleware' => 'checkRole:spm-staff'], function() {
-    Route::get('/pengelola_dashboard', [PengelolaController::class, 'index'])->name('dashboard');
-    require base_path('routes/rules/pengelola.php');
+Route::group(['middleware' => 'Session'], function() {
+    Route::get('/profile', [AdminProfileController::class, 'index']);
+    require base_path('routes/rules/common.php');
+    Route::group(['middleware' => 'checkRole:spm-administrator'], function() {
+        Route::get('/admin_dashboard', [AdminController::class, 'index'])->name('dashboard');
+        require base_path('routes/rules/admin.php');
+    });
+    Route::group(['middleware' => 'checkRole:spm-unitprodi'], function() {
+        Route::get('/prodi_dashboard', [ProdiController::class, 'index'])->name('dashboard');
+        require base_path('routes/rules/prodi.php');
+    });
+    Route::group(['middleware' => 'checkRole:spm-asesor'], function() {
+        Route::get('/asesor_dashboard', [AsesorController::class, 'index'])->name('dashboard');
+        require base_path('routes/rules/Asesor.php');
+    });
+    Route::group(['middleware' => 'checkRole:spm-staff'], function() {
+        Route::get('/pengelola_dashboard', [PengelolaController::class, 'index'])->name('dashboard');
+        require base_path('routes/rules/pengelola.php');
+    });
 });
